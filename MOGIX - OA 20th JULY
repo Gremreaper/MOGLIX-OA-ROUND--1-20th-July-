@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int n = s.size();
+
+        stack<int> st;
+        vector<bool> vis(n, false);
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '(') {
+                st.push(i);
+            } 
+            else {
+                if (!st.empty()) {
+                    vis[st.top()] = true;
+                    vis[i] = true;
+                    st.pop();
+                }
+            }
+        }
+        int ans = 0;
+        int i = 0;
+
+        while (i < n) {
+            if (!vis[i]) {
+                i++;
+                continue;
+            }
+
+            int j = i;
+            while (j < n && vis[j]) {
+                j++;
+            }
+
+            ans = max(ans, j - i);
+            i = j;
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+    Solution t;
+
+    string s;
+    cin >> s;
+
+    cout << t.longestValidParentheses(s);
+}
